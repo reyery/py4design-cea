@@ -1,6 +1,10 @@
+(NOTE: This is a fork of py4design with the intent of porting it to Python 3 and fixing some of the bugs)
+
 #========================================================
 Py4design previously known as Pyliburo
 #========================================================
+
+
 The citation if you are using the library for your research work:
 
 Chen, Kian Wee, and Leslie Norford. 2017. “Developing an Open Python Library for Urban Design Optimisation - Pyliburo.” In Building Simulation 2017, 486–493. San Francisco, USA.
