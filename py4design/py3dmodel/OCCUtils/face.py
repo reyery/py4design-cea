@@ -236,20 +236,11 @@ class Face(TopoDS_Face, BaseObject):
         if self._adaptor is not None and not self.is_dirty:
             pass
         else:
-            from OCC.Core.BRepAdaptor import BRepAdaptor_Surface, BRepAdaptor_HSurface
+            from OCC.Core.BRepAdaptor import BRepAdaptor_Surface
 
             self._adaptor = BRepAdaptor_Surface(self)
-            self._adaptor_handle = BRepAdaptor_HSurface()
-            self._adaptor_handle.Set(self._adaptor)
         return self._adaptor
 
-    @property
-    def adaptor_handle(self):
-        if self._adaptor_handle is not None and not self.is_dirty:
-            pass
-        else:
-            self.adaptor
-        return self._adaptor_handle
 
     def is_closed(self):
         sa = ShapeAnalysis_Surface(self.surface_handle)
@@ -367,7 +358,7 @@ class Face(TopoDS_Face, BaseObject):
         :return:
         """
         uv = 0 if u_or_v == 'u' else 1
-        iso = Adaptor3d_IsoCurve(self.adaptor_handle.GetHandle(), uv, param)
+        iso = Adaptor3d_IsoCurve(self.adaptor, uv, param)
         return iso
 
     def edges(self):
