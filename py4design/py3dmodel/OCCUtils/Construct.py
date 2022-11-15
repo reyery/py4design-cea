@@ -28,7 +28,6 @@ import operator
 import math
 
 from OCC.Core.BRep import BRep_Tool
-from OCC.Core.BRepAdaptor import BRepAdaptor_HCurve
 from OCC.Core.BRepOffset import BRepOffset_Skin
 from OCC.Core.Geom import Geom_TrimmedCurve
 from OCC.Core.GeomConvert import GeomConvert_ApproxCurve
@@ -553,6 +552,7 @@ def make_constrained_surface_from_edges(edges):
     from OCC.Core.BRepFill import BRepFill_CurveConstraint
     bpSrf = GeomPlate_BuildPlateSurface(3, 15, 2)
     for edg in edges:
+        from OCC.Core.BRepAdaptor import BRepAdaptor_HCurve
         c = BRepAdaptor_HCurve()
         c.ChangeCurve().Initialize(edg)
         constraint = BRepFill_CurveConstraint(c.GetHandle(), 0)

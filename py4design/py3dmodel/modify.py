@@ -22,7 +22,7 @@ from . import fetch
 from . import calculate
 from . import construct
 from . import modify
-from . import utility
+# from . import utility
 
 from . import OCCUtils
 
@@ -31,7 +31,7 @@ from OCC.Core.gp import gp_Pnt, gp_Vec, gp_Ax1, gp_Ax3, gp_Dir, gp_DZ, gp_Trsf, 
 from OCC.Core.ShapeFix import ShapeFix_Shell, ShapeFix_Solid, ShapeFix_Wire, ShapeFix_Face
 from OCC.Core.BRepLib import breplib
 from OCC.Core.Geom import Geom_TrimmedCurve
-from OCC.Core.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_CompCurve, BRepAdaptor_HCompCurve
+from OCC.Core.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_CompCurve
 from OCC.Core.GeomConvert import geomconvert_CurveToBSplineCurve
 from OCC.Core.BRep import BRep_Tool
 
@@ -492,6 +492,8 @@ def wire_2_bsplinecurve_edge(occwire):
         The converted OCCedge.
     """
     adaptor = BRepAdaptor_CompCurve(occwire)
+    from OCC.Core.BRepAdaptor import BRepAdaptor_HCompCurve
+
     hadap = BRepAdaptor_HCompCurve(adaptor)
     from OCC.Core.Approx import Approx_Curve3d
     from OCC.Core.GeomAbs import GeomAbs_C2

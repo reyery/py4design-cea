@@ -23,7 +23,7 @@ import math
 from . import fetch
 from . import calculate
 from . import modify
-from . import utility
+# from . import utility
 
 #from OCCUtils import face, Construct, Common
 from . import OCCUtils

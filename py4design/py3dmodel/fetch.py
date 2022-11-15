@@ -28,7 +28,6 @@ from OCC.Core.TopExp import TopExp_Explorer
 from OCC.Core.TopAbs import TopAbs_COMPOUND, TopAbs_COMPSOLID, TopAbs_SOLID, TopAbs_SHELL, TopAbs_FACE, TopAbs_WIRE, TopAbs_EDGE, TopAbs_VERTEX, TopAbs_REVERSED
 from OCC.Core.TopoDS import topods_Compound, topods_CompSolid, topods_Solid, topods_Shell, topods_Face, topods_Wire, topods_Edge, topods_Vertex
 from OCC.Core.Geom import Handle_Geom_BSplineCurve_Create, Geom_BSplineCurve
-from OCC.Core.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_HCurve
 
 #========================================================================================================
 #EDGE INPUTS
@@ -75,7 +74,7 @@ def is_edge_bspline(occedge):
     #GeomAbs_BezierCurve     5	
     #GeomAbs_BSplineCurve    6	
     #GeomAbs_OtherCurve      7
-
+    from OCC.Core.BRepAdaptor import BRepAdaptor_Curve
     adaptor = BRepAdaptor_Curve(occedge)
     ctype = adaptor.GetType()
     if ctype == 6:
@@ -97,6 +96,7 @@ def is_edge_line(occedge):
     True or False : bool
         True or False if the edge contains a line.
     """
+    from OCC.Core.BRepAdaptor import BRepAdaptor_Curve
     adaptor = BRepAdaptor_Curve(occedge)
     
     #GeomAbs_Line 	        0
@@ -129,6 +129,7 @@ def poles_from_bsplinecurve_edge(occedge):
     List of poles : pyptlist
         List of poles of the bspline curve
     """
+    from OCC.Core.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_HCurve
     adaptor = BRepAdaptor_Curve(occedge)
     adaptor_handle = BRepAdaptor_HCurve(adaptor)
     bspline = adaptor.BSpline()

@@ -15,7 +15,6 @@
 ##You should have received a copy of the GNU Lesser General Public License
 ##along with pythonOCC.  If not, see <http://www.gnu.org/licenses/>
 
-from OCC.Core.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_HCurve
 from OCC.Core.GCPnts import GCPnts_UniformAbscissa
 from OCC.Core.Geom import Geom_OffsetCurve, Geom_TrimmedCurve
 from OCC.Core.TopExp import topexp
@@ -224,6 +223,7 @@ class Edge(TopoDS_Edge, BaseObject):
         if self._adaptor is not None and not self.is_dirty:
             pass
         else:
+            from OCC.Core.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_HCurve
             self._adaptor = BRepAdaptor_Curve(self)
             self._adaptor_handle = BRepAdaptor_HCurve(self._adaptor)
         return self._adaptor
