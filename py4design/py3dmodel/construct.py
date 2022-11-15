@@ -1610,15 +1610,14 @@ def simple_mesh(occtopology, linear_deflection = 0.8, angle_deflection = 0.5):
 #        facing = bt.Triangulation(occshape_face, location).GetObject()
         facing = bt.Triangulation(occshape_face, location)
         if facing:
-            tab = facing.Nodes()
             tri = facing.Triangles()
             for i in range(1, facing.NbTriangles()+1):
                 trian = tri.Value(i)
                 index1, index2, index3 = trian.Get()
                 #print(index1, index2, index3)
-                pypt1 = modify.occpt_2_pypt(tab.Value(index1))
-                pypt2 = modify.occpt_2_pypt(tab.Value(index2))
-                pypt3 = modify.occpt_2_pypt(tab.Value(index3))
+                pypt1 = modify.occpt_2_pypt(facing.Node(index1))
+                pypt2 = modify.occpt_2_pypt(facing.Node(index2))
+                pypt3 = modify.occpt_2_pypt(facing.Node(index3))
                 #print(pypt1, pypt2, pypt3)
                 occface = make_polygon([pypt1, pypt2, pypt3])
                 occface_list.append(occface)
