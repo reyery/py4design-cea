@@ -36,7 +36,7 @@ from OCC.Core.Quantity import Quantity_Color, Quantity_TOC_RGB
 from OCC.Core.GProp import GProp_GProps
 from OCC.Core.GeomAbs import GeomAbs_C1, GeomAbs_C2, GeomAbs_C3
 from OCC.Core.BRepGProp import (brepgprop_LinearProperties,
-                                brepgprop_SurfaceProperties,
+                                brepgprop.SurfaceProperties,
                                 brepgprop_VolumeProperties)
 from OCC.Core.GeomAdaptor import GeomAdaptor_Curve
 from OCC.Core.Geom import Geom_Curve
@@ -462,7 +462,7 @@ class GpropsFromShape(object):
         '''returns the area of a surface
         '''
         prop = GProp_GProps()
-        brepgprop_SurfaceProperties(self.shape, prop, self.tolerance)
+        brepgprop.SurfaceProperties(self.shape, prop, self.tolerance)
         return prop
 
     def linear(self):
