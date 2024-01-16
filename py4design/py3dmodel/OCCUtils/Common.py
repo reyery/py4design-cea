@@ -35,9 +35,7 @@ from OCC.Core.TopoDS import TopoDS_Edge, TopoDS_Shape, TopoDS_Wire, TopoDS_Verte
 from OCC.Core.Quantity import Quantity_Color, Quantity_TOC_RGB
 from OCC.Core.GProp import GProp_GProps
 from OCC.Core.GeomAbs import GeomAbs_C1, GeomAbs_C2, GeomAbs_C3
-from OCC.Core.BRepGProp import (brepgprop_LinearProperties,
-                                brepgprop.SurfaceProperties,
-                                brepgprop_VolumeProperties)
+from OCC.Core.BRepGProp import brepgprop
 from OCC.Core.GeomAdaptor import GeomAdaptor_Curve
 from OCC.Core.Geom import Geom_Curve
 
@@ -455,7 +453,7 @@ class GpropsFromShape(object):
         '''returns the volume of a solid
         '''
         prop = GProp_GProps()
-        brepgprop_VolumeProperties(self.shape, prop, self.tolerance)
+        brepgprop.VolumeProperties(self.shape, prop, self.tolerance)
         return prop
 
     def surface(self):
@@ -469,7 +467,7 @@ class GpropsFromShape(object):
         '''returns the length of a wire or edge
         '''
         prop = GProp_GProps()
-        brepgprop_LinearProperties(self.shape, prop)
+        brepgprop.LinearProperties(self.shape, prop)
         return prop
 
 
