@@ -38,7 +38,9 @@ Can be a module, class or namespace.
 import functools
 
 from OCC.Core.BRepBuilderAPI import BRepBuilderAPI_Copy
-from OCC.Core.BRepGProp import brepgprop
+from OCC.Core.BRepGProp import (brepgprop_VolumeProperties,
+                                brepgprop_LinearProperties,
+                                brepgprop.SurfaceProperties)
 from OCC.Core.BRepCheck import (BRepCheck_Vertex, BRepCheck_Edge, BRepCheck_Wire,
                                 BRepCheck_Face, BRepCheck_Shell, BRepCheck_Analyzer)
 from OCC.Core.GProp import GProp_GProps
@@ -196,9 +198,9 @@ class GlobalProperties(object):
         if _topo_type == 'face' or _topo_type == 'shell':
             brepgprop.SurfaceProperties(self.instance, self._system)
         elif _topo_type == 'edge':
-            brepgprop.LinearProperties(self.instance, self._system)
+            brepgprop_LinearProperties(self.instance, self._system)
         elif _topo_type == 'solid':
-            brepgprop.VolumeProperties(self.instance, self._system)
+            brepgprop_VolumeProperties(self.instance, self._system)
         return self._system
 
     def centre(self):

@@ -32,7 +32,7 @@ from OCC.Core.gp import gp_Pnt, gp_Vec, gp_Lin, gp_Ax1, gp_Dir, gp_Trsf
 from OCC.Core.TopAbs import TopAbs_IN, TopAbs_REVERSED 
 from OCC.Core.BRepClass3d import BRepClass3d_SolidClassifier
 from OCC.Core.GProp import GProp_GProps
-from OCC.Core.BRepGProp import brepgprop
+from OCC.Core.BRepGProp import brepgprop_VolumeProperties
 from OCC.Core.BRepCheck import BRepCheck_Wire, BRepCheck_Shell, BRepCheck_NoError
 from OCC.Core.BRepBuilderAPI import BRepBuilderAPI_MakeFace
 from OCC.Core.BRep import BRep_Tool
@@ -1400,7 +1400,7 @@ def solid_volume(occsolid):
         The volume of the solid.
     """
     props = GProp_GProps()
-    brepgprop.VolumeProperties(occsolid, props)
+    brepgprop_VolumeProperties(occsolid, props)
     volume = props.Mass()
     return volume
 
