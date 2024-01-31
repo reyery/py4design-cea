@@ -26,7 +26,11 @@ from . import calculate
 from . import fetch
 from . import modify
 
-from OCC.Display.SimpleGui import init_display
+try:
+    from OCC.Display.SimpleGui import init_display
+except ImportError:
+    warnings.warn('Unable to find OpenGL lib. Ignoring display')
+
 from .OCCUtils import Topology
 
 #========================================================================================================
