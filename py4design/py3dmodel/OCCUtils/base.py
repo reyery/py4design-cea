@@ -36,6 +36,7 @@ Can be a module, class or namespace.
 '''
 
 import functools
+import warnings
 
 from OCC.Core.BRepBuilderAPI import BRepBuilderAPI_Copy
 from OCC.Core.BRepGProp import (brepgprop_VolumeProperties,
@@ -44,7 +45,12 @@ from OCC.Core.BRepGProp import (brepgprop_VolumeProperties,
 from OCC.Core.BRepCheck import (BRepCheck_Vertex, BRepCheck_Edge, BRepCheck_Wire,
                                 BRepCheck_Face, BRepCheck_Shell, BRepCheck_Analyzer)
 from OCC.Core.GProp import GProp_GProps
-from OCC.Display.SimpleGui import init_display
+
+try:
+    from OCC.Display.SimpleGui import init_display
+except ImportError:
+    warnings.warn('Unable to find OpenGL lib. Ignoring display')
+    
 
 from .Common import get_boundingbox
 from .Construct import (make_vertex, TOLERANCE)
