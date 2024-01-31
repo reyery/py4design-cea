@@ -20,6 +20,7 @@
 # ==================================================================================================
 import os
 import colorsys
+import warnings
 
 from . import construct
 from . import calculate
