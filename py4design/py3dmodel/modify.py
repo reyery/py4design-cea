@@ -27,7 +27,7 @@ from . import modify
 from . import OCCUtils
 
 from OCC.Core.BRepBuilderAPI import BRepBuilderAPI_Transform, BRepBuilderAPI_MakeEdge, BRepBuilderAPI_GTransform
-from OCC.Core.gp import gp_Pnt, gp_Vec, gp_Ax1, gp_Ax3, gp_Dir, gp_DZ, gp_Trsf, gp_GTrsf, gp_Mat
+from OCC.Core.gp import gp_Pnt, gp_Vec, gp_Ax1, gp_Ax3, gp_Dir, gp, gp_Trsf, gp_GTrsf, gp_Mat
 from OCC.Core.ShapeFix import ShapeFix_Shell, ShapeFix_Solid, ShapeFix_Wire, ShapeFix_Face
 from OCC.Core.BRepLib import breplib
 from OCC.Core.Geom import Geom_TrimmedCurve
@@ -892,8 +892,8 @@ def move(orig_pypt, location_pypt, occtopology):
     moved topology : OCCtopology (OCCshape)
         The moved OCCtopology.
     """
-    gp_ax31 = gp_Ax3(gp_Pnt(orig_pypt[0], orig_pypt[1], orig_pypt[2]), gp_DZ())
-    gp_ax32 = gp_Ax3(gp_Pnt(location_pypt[0], location_pypt[1], location_pypt[2]), gp_DZ())
+    gp_ax31 = gp_Ax3(gp_Pnt(orig_pypt[0], orig_pypt[1], orig_pypt[2]), gp.DZ())
+    gp_ax32 = gp_Ax3(gp_Pnt(location_pypt[0], location_pypt[1], location_pypt[2]), gp.DZ())
     aTrsf = gp_Trsf()
     aTrsf.SetTransformation(gp_ax32,gp_ax31)
     trsf_brep = BRepBuilderAPI_Transform(aTrsf)

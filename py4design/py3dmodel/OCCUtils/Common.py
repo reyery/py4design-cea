@@ -20,7 +20,7 @@
 import random
 
 from OCC.Core.Bnd import Bnd_Box
-from OCC.Core.BRepBndLib import brepbndlib_Add
+from OCC.Core.BRepBndLib import brepbndlib
 from OCC.Core.TColgp import (TColgp_HArray1OfPnt,
                              TColgp_Array1OfPnt,
                              TColgp_Array1OfPnt2d,
@@ -35,9 +35,7 @@ from OCC.Core.TopoDS import TopoDS_Edge, TopoDS_Shape, TopoDS_Wire, TopoDS_Verte
 from OCC.Core.Quantity import Quantity_Color, Quantity_TOC_RGB
 from OCC.Core.GProp import GProp_GProps
 from OCC.Core.GeomAbs import GeomAbs_C1, GeomAbs_C2, GeomAbs_C3
-from OCC.Core.BRepGProp import (brepgprop_LinearProperties,
-                                brepgprop_SurfaceProperties,
-                                brepgprop_VolumeProperties)
+from OCC.Core.BRepGProp import brepgprop
 from OCC.Core.GeomAdaptor import GeomAdaptor_Curve
 from OCC.Core.Geom import Geom_Curve
 
@@ -85,7 +83,7 @@ def get_boundingbox(shape, tol=TOLERANCE):
     '''
     bbox = Bnd_Box()
     bbox.SetGap(tol)
-    brepbndlib_Add(shape, bbox)
+    brepbndlib.Add(shape, bbox)
     xmin, ymin, zmin, xmax, ymax, zmax = bbox.Get()
     return xmin, ymin, zmin, xmax, ymax, zmax
 
@@ -326,7 +324,7 @@ def point_in_boundingbox(solid, pnt, tolerance=1e-5):
     """
     bbox = Bnd_Box()
     bbox.SetGap(tolerance)
-    brepbndlib_Add(solid, bbox)
+    brepbndlib.Add(solid, bbox)
     return not bbox.IsOut(pnt)
 
 
@@ -455,21 +453,21 @@ class GpropsFromShape(object):
         '''returns the volume of a solid
         '''
         prop = GProp_GProps()
-        brepgprop_VolumeProperties(self.shape, prop, self.tolerance)
+        brepgprop.VolumeProperties(self.shape, prop, self.tolerance)
         return prop
 
     def surface(self):
         '''returns the area of a surface
         '''
         prop = GProp_GProps()
-        brepgprop_SurfaceProperties(self.shape, prop, self.tolerance)
+        brepgprop.SurfaceProperties(self.shape, prop, self.tolerance)
         return prop
 
     def linear(self):
         '''returns the length of a wire or edge
         '''
         prop = GProp_GProps()
-        brepgprop_LinearProperties(self.shape, prop)
+        brepgprop.LinearProperties(self.shape, prop)
         return prop
 
 
