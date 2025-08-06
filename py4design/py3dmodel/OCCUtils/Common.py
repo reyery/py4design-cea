@@ -20,7 +20,7 @@
 import random
 
 from OCC.Core.Bnd import Bnd_Box
-from OCC.Core.BRepBndLib import brepbndlib_Add
+from OCC.Core.BRepBndLib import brepbndlib
 from OCC.Core.TColgp import (TColgp_HArray1OfPnt,
                              TColgp_Array1OfPnt,
                              TColgp_Array1OfPnt2d,
@@ -35,9 +35,7 @@ from OCC.Core.TopoDS import TopoDS_Edge, TopoDS_Shape, TopoDS_Wire, TopoDS_Verte
 from OCC.Core.Quantity import Quantity_Color, Quantity_TOC_RGB
 from OCC.Core.GProp import GProp_GProps
 from OCC.Core.GeomAbs import GeomAbs_C1, GeomAbs_C2, GeomAbs_C3
-from OCC.Core.BRepGProp import (brepgprop_LinearProperties,
-                                brepgprop_SurfaceProperties,
-                                brepgprop_VolumeProperties)
+from OCC.Core.BRepGProp import brepgprop
 from OCC.Core.GeomAdaptor import GeomAdaptor_Curve
 from OCC.Core.Geom import Geom_Curve
 
@@ -85,7 +83,7 @@ def get_boundingbox(shape, tol=TOLERANCE):
     '''
     bbox = Bnd_Box()
     bbox.SetGap(tol)
-    brepbndlib_Add(shape, bbox)
+    brepbndlib.Add(shape, bbox)
     xmin, ymin, zmin, xmax, ymax, zmax = bbox.Get()
     return xmin, ymin, zmin, xmax, ymax, zmax
 
@@ -111,7 +109,7 @@ def color(r, g, b):
 
 
 def to_string(_string):
-    from OCC.TCollection import TCollection_ExtendedString
+    from OCC.Core.TCollection import TCollection_ExtendedString
     return TCollection_ExtendedString(_string)
 
 
@@ -326,7 +324,7 @@ def point_in_boundingbox(solid, pnt, tolerance=1e-5):
     """
     bbox = Bnd_Box()
     bbox.SetGap(tolerance)
-    brepbndlib_Add(solid, bbox)
+    brepbndlib.Add(solid, bbox)
     return not bbox.IsOut(pnt)
 
 
@@ -359,7 +357,7 @@ def intersection_from_three_planes(planeA, planeB, planeC):
     @param planeC:
     @param show:
     '''
-    from OCC.IntAna import IntAna_Int3Pln
+    from OCC.Core.IntAna import IntAna_Int3Pln
 
     planeA = planeA if not hasattr(planeA, 'Pln') else planeA.Pln()
     planeB = planeB if not hasattr(planeB, 'Pln') else planeB.Pln()
@@ -386,7 +384,7 @@ def intersect_shape_by_line(topods_shape, line, low_parameter=0.0, hi_parameter=
     and the u,v,w parameters of the intersection point
     :raise:
     """
-    from OCC.IntCurvesFace import IntCurvesFace_ShapeIntersector
+    from OCC.Core.IntCurvesFace import IntCurvesFace_ShapeIntersector
     shape_inter = IntCurvesFace_ShapeIntersector()
     shape_inter.Load(topods_shape, TOLERANCE)
     shape_inter.PerformNearest(line, low_parameter, hi_parameter)
@@ -413,12 +411,12 @@ def normal_vector_from_plane(plane, vec_length=1.):
 
 
 def fix_tolerance(shape, tolerance=TOLERANCE):
-    from OCC.ShapeFix import ShapeFix_ShapeTolerance
+    from OCC.Core.ShapeFix import ShapeFix_ShapeTolerance
     ShapeFix_ShapeTolerance().SetTolerance(shape, tolerance)
 
 
 def fix_continuity(edge, continuity=1):
-    from OCC.ShapeUpgrade import ShapeUpgrade_ShapeDivideContinuity
+    from OCC.Core.ShapeUpgrade import ShapeUpgrade_ShapeDivideContinuity
     su = ShapeUpgrade_ShapeDivideContinuity(edge)
     su.SetBoundaryCriterion(eval('GeomAbs_C'+str(continuity)))
     su.Perform()
@@ -432,7 +430,7 @@ def resample_curve_with_uniform_deflection(curve, deflection=0.5, degreeMin=3, d
     @param curve: TopoDS_Wire, TopoDS_Edge, curve
     @param n_samples:
     '''
-    from OCC.GCPnts import GCPnts_UniformDeflection
+    from OCC.Core.GCPnts import GCPnts_UniformDeflection
     crv = to_adaptor_3d(curve)
     defl = GCPnts_UniformDeflection(crv, deflection)
     with assert_isdone(defl, 'failed to compute UniformDeflection'):
@@ -455,21 +453,21 @@ class GpropsFromShape(object):
         '''returns the volume of a solid
         '''
         prop = GProp_GProps()
-        brepgprop_VolumeProperties(self.shape, prop, self.tolerance)
+        brepgprop.VolumeProperties(self.shape, prop, self.tolerance)
         return prop
 
     def surface(self):
         '''returns the area of a surface
         '''
         prop = GProp_GProps()
-        brepgprop_SurfaceProperties(self.shape, prop, self.tolerance)
+        brepgprop.SurfaceProperties(self.shape, prop, self.tolerance)
         return prop
 
     def linear(self):
         '''returns the length of a wire or edge
         '''
         prop = GProp_GProps()
-        brepgprop_LinearProperties(self.shape, prop)
+        brepgprop.LinearProperties(self.shape, prop)
         return prop
 
 
@@ -565,7 +563,7 @@ def project_point_on_plane(plane, point):
     @param plane: Geom_Plane
     @param point: gp_Pnt
     '''
-    from OCC.ProjLib import projlib_Project
+    from OCC.Core.ProjLib import projlib_Project
     pl = plane.Pln()
     aa, bb = projlib_Project(pl, point).Coord()
     point = plane.Value(aa, bb)
@@ -582,7 +580,7 @@ def wire_to_curve(wire, tolerance=TOLERANCE, order=GeomAbs_C2, max_segment=200, 
 
     adap = BRepAdaptor_CompCurve(wire)
     hadap = BRepAdaptor_HCompCurve(adap)
-    from OCC.Approx import Approx_Curve3d
+    from OCC.Core.Approx import Approx_Curve3d
     approx = Approx_Curve3d(hadap.GetHandle(), tolerance, order, max_segment, max_order)
     with assert_isdone(approx, 'not able to compute approximation from wire'):
         return approx.Curve().GetObject()
