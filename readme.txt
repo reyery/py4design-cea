@@ -1,5 +1,6 @@
 This is no longer maintained. geomie3d is a successor to this library.
 
+Maintaince of py4design-cea is now moved to https://github.com/architecture-building-systems/py4design-cea
 
 #========================================================
 Py4design previously known as Pyliburo
